@@ -1,5 +1,5 @@
 let comics;
-
+// Rockwell Dela Rosa, IT302-451, IT302 Project, rmd2@njit.edu
 class ComicsDAO {
     static async injectDB(conn) {
         if (comics) {

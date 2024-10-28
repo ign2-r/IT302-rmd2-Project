@@ -1,5 +1,5 @@
 const ComicsDAO = require('../dao/comicsDAO');
-
+// Rockwell Dela Rosa, IT302-451, IT302 Project, rmd2@njit.edu
 class ComicsController {
     static async apiGetComics(req, res, next) {
         const itemsPerPage = req.query.itemsPerPage ? parseInt(req.query.itemsPerPage, 10) : 10;

@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
 const ComicsDAO = require('./dao/comicsDAO');
 const FeedbackDAO = require('./dao/feedbackDAO'); // Import the new DAO
-
+// Rockwell Dela Rosa, IT302-451, IT302 Project, rmd2@njit.edu
 dotenv.config();
 
 async function initMongoDB() {
