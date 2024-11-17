@@ -18,10 +18,22 @@ function ComicsList() {
     };
 
     const search = () => {
-        ComicsDataService.findByField(field, searchText)
-            .then(response => setComics(response.data.comics))
-            .catch(error => console.error(error));
-    };
+        if (field === 'id') {
+            ComicsDataService.getById(searchText)
+                .then((response) => {
+                    // Safeguard to handle cases where no comic is found
+                    setComics(response.data ? [response.data] : []);
+                })
+                .catch((error) => console.error(error));
+        } else {
+            ComicsDataService.findByField(field, searchText)
+                .then((response) => {
+                    // Set comics for non-id searches
+                    setComics(response.data.comics);
+                })
+                .catch((error) => console.error(error));
+        }
+    };        
 
     return (
         <div className="container mt-4">
@@ -34,7 +46,7 @@ function ComicsList() {
                 >
                     <option value="title">Title</option>
                     <option value="safe_title">Safe Title</option>
-                    <option value="num">Number</option>
+                    <option value="id">ID</option>
                     <option value="year">Year</option>
                 </select>
                 <input
@@ -48,13 +60,19 @@ function ComicsList() {
                     Search
                 </button>
             </div>
-            <ul>
-                {comics.map(comic => (
-                    <li key={comic._id}>
-                        <Link to={`/rmd2_comics/id/${comic._id}`}>{comic.title}</Link>
-                    </li>
-                ))}
-            </ul>
+    
+            {/* Conditional Rendering */}
+            {comics.length > 0 ? (
+                <ul>
+                    {comics.map(comic => (
+                        <li key={comic._id}>
+                            <Link to={`/rmd2_comics/id/${comic._id}`}>{comic.title}</Link>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No comics found.</p> // Display this when no comics are available
+            )}
         </div>
     );
 }

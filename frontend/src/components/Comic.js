@@ -7,7 +7,7 @@ function Comic() {
     const [comic, setComic] = useState(null);
 
     useEffect(() => {
-        ComicsDataService.get(id)
+        ComicsDataService.getById(id)
             .then(response => setComic(response.data))
             .catch(error => console.error(error));
     }, [id]);

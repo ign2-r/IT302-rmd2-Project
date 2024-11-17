@@ -7,7 +7,7 @@ class ComicsDataService {
         return axios.get(`${API_URL}/api/v1/rmd2/comics`);
     }
 
-    get(id) {
+    getById(id) {
         return axios.get(`${API_URL}/api/v1/rmd2/comics/id/${id}`);
     }
 
