@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = 3000;
+const port = 5001;
 
 app.use('/api/v1/rmd2/comics', comics);
 app.use('/api/v1/rmd2/feedback', feedback);

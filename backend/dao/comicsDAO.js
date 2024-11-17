@@ -1,4 +1,5 @@
 let comics;
+const { ObjectId } = require('mongodb');
 // Rockwell Dela Rosa, IT302-451, IT302 Project, rmd2@njit.edu
 class ComicsDAO {
     static async injectDB(conn) {
@@ -12,23 +13,34 @@ class ComicsDAO {
         }
     }
 
-    static async getComics({ filters = null, page = 0, itemsPerPage = 10 } = {}) {
+    static async getComics({ filters = null } = {}) {
         let query = {};
+    
         if (filters) {
-            if (filters.title) {
-                query.title = { $regex: filters.title, $options: 'i' };
+            for (const [key, value] of Object.entries(filters)) {
+                query[key] = { $regex: value, $options: 'i' }; // Case-insensitive regex for strings
             }
         }
-
-        let cursor;
+    
         try {
-            cursor = await comics.find(query).limit(itemsPerPage).skip(itemsPerPage * page);
-            const comicsList = await cursor.toArray();
+            const comicsList = await comics.find(query).toArray(); // Remove limit and skip
             const totalNumComics = await comics.countDocuments(query);
+    
             return { comicsList, totalNumComics };
         } catch (e) {
             console.error(`Unable to issue find command, ${e}`);
             return { comicsList: [], totalNumComics: 0 };
+        }
+    }
+    
+
+    static async getComicById(id) {
+        try {
+            // Convert string ID to ObjectId for querying
+            return await comics.findOne({ _id: new ObjectId(id) });
+        } catch (e) {
+            console.error(`Unable to find comic by ID: ${e}`);
+            throw e;
         }
     }
 }
